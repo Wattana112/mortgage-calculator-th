@@ -7,6 +7,7 @@ Vite + React frontend for a Thai mortgage calculator, backed by PHP + MySQL so i
 - `src/` React calculator UI converted from the original HTML
 - `api/` PHP JSON endpoint for current bank interest rates
 - `database/schema.sql` MySQL schema designed for quarterly interest-rate updates
+- `public/` deploy-time SEO and security headers for Apache/Hostinger
 - `.gitignore` for Node + PHP deployment artifacts
 
 ## Database design
@@ -29,6 +30,7 @@ This makes it easy to:
 `GET /api/rates.php`
 
 Returns the latest rate period and all active bank rates for that period.
+The endpoint accepts only safe GET requests and validates filter input before querying the database.
 
 Example response:
 
@@ -50,6 +52,7 @@ Example response:
 4. Build the frontend locally with `npm install` then `npm run build`.
 5. Upload the generated `dist/` contents to `public_html`.
 6. Upload the `api/` folder into the same site root so `fetch('/api/rates.php')` works on the live domain.
+7. Keep the `public/.htaccess` file in place so the deployed site gets basic security headers and directory listing is disabled.
 
 ## Local development
 

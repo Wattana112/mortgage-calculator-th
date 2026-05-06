@@ -1,13 +1,46 @@
 <?php
 
 header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(), microphone=(), geolocation=()');
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header_remove('X-Powered-By');
 
 require __DIR__ . '/db.php';
 
 try {
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') !== 'GET') {
+        http_response_code(405);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Method not allowed.',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
     $pdo = db();
     $bankFilter = isset($_GET['bank']) && $_GET['bank'] !== '' ? trim((string) $_GET['bank']) : null;
     $periodFilter = isset($_GET['period']) && $_GET['period'] !== '' ? trim((string) $_GET['period']) : null;
+
+    if ($bankFilter !== null && !preg_match('/^[a-z0-9-]+$/', $bankFilter)) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid bank filter.',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($periodFilter !== null && !preg_match('/^(?:Q[1-4]\/\d{4}|\d{4}-Q[1-4])$/', str_replace(' ', '', $periodFilter))) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'message' => 'Invalid period filter.',
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 
     $periodStmt = $pdo->query(
         'SELECT id, label, published_at, valid_from, valid_to, notes

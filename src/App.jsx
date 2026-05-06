@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AppHeader from './components/AppHeader';
+import Seo from './components/Seo';
 import TabBar from './components/TabBar';
 import LoanCalculator from './features/loan/LoanCalculator';
 import RefiCalculator from './features/refi/RefiCalculator';
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <div className="app-shell">
+      <Seo />
       <div className="container">
         <AppHeader ratePeriod={ratePeriod} status={status} error={error} />
         <TabBar activeTab={activeTab} onChange={setActiveTab} />
