@@ -1,11 +1,10 @@
 <?php
 
 return [
-    'host' => '127.0.0.1',
-    'port' => 3306,
-    'dbname' => 'mortgage_rates',
-    'username' => 'root',
-    'password' => '',
+    'host' => getenv('DB_HOST') ?: '127.0.0.1',
+    'port' => getenv('DB_PORT') ? (int) getenv('DB_PORT') : 3306,
+    'dbname' => getenv('DB_NAME') ?: 'mortgage_rates',
+    'username' => getenv('DB_USER') ?: 'root',
+    'password' => getenv('DB_PASS') ?: '',
     'charset' => 'utf8mb4',
 ];
-

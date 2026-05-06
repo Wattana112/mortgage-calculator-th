@@ -68,3 +68,13 @@ php -S 127.0.0.1:8000 -t .
 
 Then Vite will proxy `/api` to the PHP server.
 
+## Localhost database
+
+This project now works cleanly on localhost too:
+
+1. Install PHP and MySQL locally, for example with XAMPP, MAMP, Laragon, or native installs.
+2. Create a database named `mortgage_rates`.
+3. Import `database/schema.sql`.
+4. Leave `api/config.php` as-is for the default local values, or set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASS` in your shell.
+
+The API will read those environment variables if they exist, so the same code can run locally and on Hostinger with only config changes.
