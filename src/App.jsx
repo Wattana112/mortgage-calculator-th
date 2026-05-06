@@ -8,7 +8,7 @@ import { useBankRates } from './hooks/useBankRates';
 
 function App() {
   const [activeTab, setActiveTab] = useState('loan');
-  const { banks, ratePeriod, rateSource } = useBankRates();
+  const { banks, ratePeriod, status, error } = useBankRates();
   const [selectedBanks, setSelectedBanks] = useState(new Set([1, 2, 3, 4, 5, 6]));
 
   const [loanState, setLoanState] = useState({
@@ -39,7 +39,7 @@ function App() {
   return (
     <div className="app-shell">
       <div className="container">
-        <AppHeader ratePeriod={ratePeriod} rateSource={rateSource} />
+        <AppHeader ratePeriod={ratePeriod} status={status} error={error} />
         <TabBar activeTab={activeTab} onChange={setActiveTab} />
 
         {activeTab === 'loan' && <LoanCalculator state={loanState} setState={setLoanState} />}
@@ -52,6 +52,8 @@ function App() {
             selectedBanks={selectedBanks}
             setSelectedBanks={setSelectedBanks}
             ratePeriod={ratePeriod}
+            status={status}
+            error={error}
           />
         )}
       </div>

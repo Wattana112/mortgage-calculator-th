@@ -98,6 +98,11 @@ button {
   font-size: 13px;
 }
 
+.source-chip small {
+  color: var(--muted);
+  font-family: var(--font);
+}
+
 .tabs {
   display: inline-flex;
   gap: 4px;
@@ -593,6 +598,17 @@ button {
   margin-top: 12px;
 }
 
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 18px;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  display: grid;
+  gap: 4px;
+  color: var(--muted);
+}
+
 .compare-card {
   border: 1px solid var(--border);
   background: #0d1117;
@@ -718,4 +734,3 @@ button {
     text-align: left;
   }
 }
-

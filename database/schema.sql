@@ -68,7 +68,7 @@ ON DUPLICATE KEY UPDATE
   sort_order = VALUES(sort_order);
 
 INSERT INTO rate_periods (id, label, quarter_year, quarter_no, valid_from, valid_to, published_at, notes, is_current) VALUES
-  (1, 'Q2/2026', 2026, 2, '2026-04-01', '2026-06-30', '2026-04-01 09:00:00', 'อัปเดตรอบไตรมาสที่ 2', 1)
+  (1, 'Q2/2026', 2026, 2, '2026-04-01', '2026-06-30', '2026-05-06 09:00:00', 'อัปเดตอัตราจากหน้าเว็บธนาคารทางการ ณ วันที่ 6 พ.ค. 2569', 1)
 ON DUPLICATE KEY UPDATE
   label = VALUES(label),
   valid_from = VALUES(valid_from),
@@ -78,16 +78,15 @@ ON DUPLICATE KEY UPDATE
   is_current = VALUES(is_current);
 
 INSERT INTO bank_interest_rates (bank_id, rate_period_id, rate_type, annual_rate, source_url, note) VALUES
-  (1, 1, 'MRR', 6.970, 'https://www.kasikornbank.com', 'อัตราอ้างอิง'),
-  (2, 1, 'MRR', 6.750, 'https://www.bangkokbank.com', 'อัตราอ้างอิง'),
-  (3, 1, 'MRR', 7.100, 'https://www.scb.co.th', 'อัตราอ้างอิง'),
-  (4, 1, 'MRR', 6.870, 'https://www.krungthai.com', 'อัตราอ้างอิง'),
-  (5, 1, 'MLR', 6.395, 'https://www.gsb.or.th', 'อัตราอ้างอิง'),
-  (6, 1, 'PROMO', 5.000, 'https://www.ghbank.co.th', 'โปรโมชันบ้าน'),
-  (7, 1, 'MRR', 7.000, 'https://www.uob.co.th', 'อัตราอ้างอิง'),
-  (8, 1, 'MRR', 6.600, 'https://www.ttbbank.com', 'อัตราอ้างอิง')
+  (1, 1, 'MRR', 6.580, 'https://www.kasikornbank.com/en/IR/PresentationJournal/KIRNews/260227%20-%20Interest%20rate%20cut%20-%20En.pdf', 'ประกาศมีผล 2 มี.ค. 2569'),
+  (2, 1, 'MRR', 6.500, 'https://www.bangkokbank.com/en/Personal/My-Home/Home-Loan/Loans-for-High-Income-Earners', 'อ้างอิง ณ 26 ก.พ. 2569'),
+  (3, 1, 'MRR', 6.575, 'https://www.scb.co.th/en/about-us/news/feb-2026/reduce-loan-interest-rate', 'ประกาศมีผล 2 มี.ค. 2569'),
+  (4, 1, 'MRR', 7.445, 'https://krungthai.com/Download/rateFee/RateFeeDownload_4901EN_01.11.2567.pdf', 'ประกาศมีผล 1 พ.ย. 2567'),
+  (5, 1, 'MRR', 6.045, 'https://www.gsb.or.th/', 'ประกาศ ณ 27 ก.พ. 2569'),
+  (6, 1, 'MRR', 6.145, 'https://www.ghbank.co.th/news/detail/ghb-news/news-1526', 'ประกาศมีผล 4 มี.ค. 2569'),
+  (7, 1, 'MRR', 8.075, 'https://www.uob.co.th/assets/web-resources/pdf/personal/announcement/3loanrate/2026/loan-6mar2026-th.pdf', 'ประกาศ ณ 6 มี.ค. 2569'),
+  (8, 1, 'MRR', 7.105, 'https://www.ttbbank.com/en/rates/loan-interest-rates?page=413', 'ประกาศมีผล 2 มี.ค. 2569')
 ON DUPLICATE KEY UPDATE
   annual_rate = VALUES(annual_rate),
   source_url = VALUES(source_url),
   note = VALUES(note);
-

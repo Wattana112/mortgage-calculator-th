@@ -27,6 +27,8 @@ export default function CompareBanks({
   selectedBanks,
   setSelectedBanks,
   ratePeriod,
+  status,
+  error,
 }) {
   const rows = buildRows(banks, selectedBanks, compareState);
   const minEMI = rows.length ? Math.min(...rows.map((row) => row.emi)) : 0;
@@ -68,21 +70,28 @@ export default function CompareBanks({
           <div className="divider" />
           <div className="card-title">อัตราดอกเบี้ยธนาคาร {ratePeriod.label}</div>
           <div className="compare-grid">
-            {banks.map((bank) => {
-              const selected = selectedBanks.has(bank.id);
-              return (
-                <button
-                  type="button"
-                  key={bank.id}
-                  className={`compare-card ${selected ? 'selected' : ''}`}
-                  onClick={() => toggleBank(bank.id)}
-                >
-                  <div className="bank-name">{bank.name}</div>
-                  <div className="bank-rate" style={{ color: bank.color }}>{bank.rate}%</div>
-                  <div className="bank-type">{bank.type}</div>
-                </button>
-              );
-            })}
+            {banks.length ? (
+              banks.map((bank) => {
+                const selected = selectedBanks.has(bank.id);
+                return (
+                  <button
+                    type="button"
+                    key={bank.id}
+                    className={`compare-card ${selected ? 'selected' : ''}`}
+                    onClick={() => toggleBank(bank.id)}
+                  >
+                    <div className="bank-name">{bank.name}</div>
+                    <div className="bank-rate" style={{ color: bank.color }}>{bank.rate}%</div>
+                    <div className="bank-type">{bank.type}</div>
+                  </button>
+                );
+              })
+            ) : (
+              <div className="empty-state">
+                <strong>{status === 'loading' ? 'กำลังโหลดอัตราดอกเบี้ยจากฐานข้อมูล' : 'ไม่มีข้อมูลอัตราดอกเบี้ย'}</strong>
+                <span>{error || 'ตรวจสอบการเชื่อมต่อฐานข้อมูลและ API'}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -100,15 +109,23 @@ export default function CompareBanks({
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row) => (
-                  <tr key={row.id} style={row.emi === minEMI ? { background: 'rgba(63,185,80,0.06)' } : undefined}>
-                    <td style={{ textAlign: 'left', color: row.color, fontWeight: 500 }}>{row.name}</td>
-                    <td>{row.rate}%</td>
-                    <td className={row.emi === minEMI ? 'best' : ''}>{formatCurrency(row.emi)}</td>
-                    <td className="interest">{formatCurrency(row.totalInterest)}</td>
-                    <td>{formatCurrency(row.totalPayment)}</td>
+                {rows.length ? (
+                  rows.map((row) => (
+                    <tr key={row.id} style={row.emi === minEMI ? { background: 'rgba(63,185,80,0.06)' } : undefined}>
+                      <td style={{ textAlign: 'left', color: row.color, fontWeight: 500 }}>{row.name}</td>
+                      <td>{row.rate}%</td>
+                      <td className={row.emi === minEMI ? 'best' : ''}>{formatCurrency(row.emi)}</td>
+                      <td className="interest">{formatCurrency(row.totalInterest)}</td>
+                      <td>{formatCurrency(row.totalPayment)}</td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" style={{ textAlign: 'center', padding: '1.25rem' }}>
+                      {status === 'loading' ? 'กำลังโหลดข้อมูลจากฐานข้อมูล...' : 'ยังไม่มีข้อมูลสำหรับเปรียบเทียบ'}
+                    </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -121,4 +138,3 @@ export default function CompareBanks({
     </section>
   );
 }
-

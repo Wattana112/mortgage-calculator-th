@@ -59,11 +59,13 @@ try {
         INNER JOIN banks b ON b.id = rir.bank_id
         INNER JOIN rate_periods rp ON rp.id = rir.rate_period_id
         ' . $where . '
+          AND rir.rate_type = :rate_type
         ORDER BY b.sort_order ASC, b.name ASC
     ';
 
     $rateStmt = $pdo->prepare($sql);
     $params = ['period_id' => $period['id'] ?? 0];
+    $params['rate_type'] = 'MRR';
     if ($bankFilter) {
         $params['bank_slug'] = $bankFilter;
     }

@@ -1,4 +1,7 @@
-export default function AppHeader({ ratePeriod, rateSource }) {
+export default function AppHeader({ ratePeriod, status, error }) {
+  const statusLabel =
+    status === 'ready' ? 'API จริง' : status === 'loading' ? 'กำลังโหลด' : 'เชื่อมต่อไม่สำเร็จ';
+
   return (
     <header className="header">
       <div className="header-copy">
@@ -6,10 +9,10 @@ export default function AppHeader({ ratePeriod, rateSource }) {
         <p className="subtitle">คำนวณค่าผ่อนรายเดือน ดอกเบี้ยรวม และวิเคราะห์ความคุ้มค่าของการรีไฟแนนซ์</p>
       </div>
       <div className="source-chip">
-        <span>Rates: {rateSource === 'api' ? 'API' : 'Fallback'}</span>
+        <span>{statusLabel}</span>
         <strong>{ratePeriod.label}</strong>
+        {error ? <small>{error}</small> : null}
       </div>
     </header>
   );
 }
-
